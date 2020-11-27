@@ -37,15 +37,7 @@ addLayer("c", {
     var mult = new Decimal(1);
   },
   row: 0, // Row the layer is in on the tree (0 is the first row)
-  hotkeys: [
-    {
-      key: "c",
-      description: "Reset for creativity",
-      onPress() {
-        if (canReset(this.layer)) doReset(this.layer);
-      }
-    }
-  ],
+  
   layerShown() {
     return true;
   },
@@ -121,12 +113,19 @@ addLayer("c", {
       cost: new Decimal("10^^10"), //NOT actual cost
     },
   },
+  
+  hotkeys: [
+        {key: "c", description: "Press C to reset for creativity", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+  
   update(diff) {
     if (hasUpgrade("c", 21))
       player.c.thing.add(
         new Decimal(diff).times(layers[this.layer].thingMult())
       );
   }
+  
+  
 });
 
 addLayer("wf", {
@@ -140,8 +139,9 @@ addLayer("wf", {
       thing: new Decimal(0)
     };
   },
+  branches: ["c"],
   color: "#00ffff",
-  requires: new Decimal("10^^10"), // Can be a function that takes requirement increases into account
+  requires: new Decimal("3000"), // Can be a function that takes requirement increases into account
   resource: "world fragments", // Name of prestige currency
   baseResource: "creativity", // Name of resource prestige is based on
   baseAmount() {
@@ -164,8 +164,8 @@ addLayer("wf", {
   row: 1, // Row the layer is in on the tree (0 is the first row)
   hotkeys: [
     {
-      key: "c",
-      description: "Reset for creativity",
+      key: "w",
+      description: "Reset for prestige",
       onPress() {
         if (canReset(this.layer)) doReset(this.layer);
       }
